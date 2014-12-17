@@ -1,27 +1,37 @@
 var fs = require('fs');
 
 var FileLottery = function(path) {
-	this.fileNames = FileLottery.getContentsOfDirectory(path);
+	this.fileNames = this.init(path);
 	this.fileNames = FileLottery.shuffleArray(this.fileNames);
+	this.fileListLength = this.fileNames.length;
 	this.fileListIndex = -1;
 };	
 
 FileLottery.prototype = {
-	fileLottery: function() {
-    	if (this.fileNames.length == 0) return ""; 
-    	if (this.hasNext) {
-    		return this.next;
-    	}
-	},
-
-	hasNext: function() {
-		if (this.fileNames.length == 0) {
-			return false;
+	init: function(path) {
+		var fileNames; 
+		if (fs.lstatSync(path).isDirectory()) {
+			fileNames = FileLottery.getContentsOfDirectory(path);
+		} else if (fs.lstatSync(path).isFile()) {
+			fileNames = [path];
+		} else {
+			console.log("Path does not lead to a file or directory.");
 		}
-		return true;
+		return fileNames;
 	},
 
-	next: function() {
+	fileLottery: function() {
+    	if (this.fileListLength == 0) {
+    		return '';
+    	} 
+    	return this.nextFile(); 
+	},
+
+	nextFile: function() {
+		if (this.fileListIndex >= this.fileListLength - 1) {
+			this.fileNames = FileLottery.shuffleArray(this.fileNames);
+			this.fileListIndex = -1; 
+		}
 		this.fileListIndex++;
 		return this.fileNames[this.fileListIndex];
 	}
