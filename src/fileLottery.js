@@ -2,16 +2,13 @@ var fs = require('fs');
 
 var FileLottery = function(path) {
 	this.fileNames = FileLottery.getContentsOfDirectory(path);
+	// this.fileNames = this.fileNames.
 };	
 
 FileLottery.prototype = {
 	fileLottery: function() {
     	if (this.fileNames.length == 0) return ""; 
-    	return this.fileNames[this.getRandomIndex(this.fileNames)];
-	},
-
-	getRandomIndex: function(array) {
-    	return Math.floor(Math.random()*array.length);
+    	// return this.fileNames[this.getRandomIndex(this.fileNames)];
 	},
 
 	hasNext: function() {
@@ -33,14 +30,14 @@ FileLottery.getContentsOfDirectory = function(directoryPath) {
 		var fileListLength = fileList.length;
 		for (var i = 0; i < fileListLength; i++) {
 			var currentElement = fileList[i];
-			if (!isElementInList(currentElement, blacklist)) {
+			if (!FileLottery.isElementInList(currentElement, blacklist)) {
 				finalFileList.push(currentElement);
 			}			
 		}
 		return finalFileList;
 	}
 
-var isElementInList = function(element, list) {
+FileLottery.isElementInList = function(element, list) {
     for (var i = 0; i < list.length; i++){
         if (element == list[i]){
             return true;
@@ -49,5 +46,8 @@ var isElementInList = function(element, list) {
     return false;
 }
 
+FileLottery.getRandomNumber = function(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 module.exports.FileLottery = FileLottery;

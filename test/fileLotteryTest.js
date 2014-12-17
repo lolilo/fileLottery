@@ -10,24 +10,24 @@ var FILE_PATH = (__dirname + "/../src");
 
 suite('fileLottery', function() {
 
-  test( 'Return empty string for empty directory', function() {
-    var stub = sinon.stub(FileLottery, "getContentsOfDirectory");
-    stub.withArgs(FILE_PATH).returns([]);
-    var lottery = new FileLottery(FILE_PATH); 
+  // test('Return empty string for empty directory', function() {
+  //   var stub = sinon.stub(FileLottery, "getContentsOfDirectory");
+  //   stub.withArgs(FILE_PATH).returns([]);
+  //   var lottery = new FileLottery(FILE_PATH); 
     
-    expect(lottery.fileLottery(FILE_PATH)).to.equal('');
-    stub.restore();
-  });
+  //   expect(lottery.fileLottery(FILE_PATH)).to.equal('');
+  //   stub.restore();
+  // });
     
-  test('Return filename string for directory with one file', function() {
+  // test('Return filename string for directory with one file', function() {
 
-    var stub = sinon.stub(FileLottery, "getContentsOfDirectory");
-    stub.withArgs(FILE_PATH).returns(['test.txt']);
-    var lottery = new FileLottery(FILE_PATH); 
+  //   var stub = sinon.stub(FileLottery, 'getContentsOfDirectory');
+  //   stub.withArgs(FILE_PATH).returns(['test.txt']);
+  //   var lottery = new FileLottery(FILE_PATH); 
     
-    expect(lottery.fileLottery(FILE_PATH)).to.equal('test.txt');
-    stub.restore();
-  });
+  //   expect(lottery.fileLottery(FILE_PATH)).to.equal('test.txt');
+  //   stub.restore();
+  // });
 
   // test('Return random filename for directory with more than one files', function() {
   //   var lottery = new FileLottery(FILE_PATH);    
@@ -41,28 +41,31 @@ suite('fileLottery', function() {
   // });
 });
 
+suite('isElementInList', function() {
+  test('Return true if element is in list', function(){
+    assert.equal(true, FileLottery.isElementInList("y", ["y", "a"]));
+  }); 
+  test('Return false if element is not in list', function(){
+    assert.equal(false, FileLottery.isElementInList("y", ["no", "a"]));
+  });
+});
+
 suite('getContentsOfDirectory', function() {
   test('Return the content of the directory as an array of strings', function(){
-    // var lottery = new FileLottery(FILE_PATH);
     expect(FileLottery.getContentsOfDirectory(FILE_PATH)).to.deep.equal(['fileLottery.js']);
   }); 
 });
 
-suite('getRandomIndex', function() {
-  test('Return 0 for one-element array', function(){
-    var lottery = new FileLottery(FILE_PATH);
-    expect(lottery.getRandomIndex([0])).to.equal(0);
-  }); 
-
-  test('Return random index from array', function(){
-    var lottery = new FileLottery(FILE_PATH);
-    expect(0 <= lottery.getRandomIndex([0, 1, 2, 3, 4]) && lottery.getRandomIndex([0, 1, 2, 3, 4]) <= 4).to.be.true;
-  }); 
+suite('getRandomNumber', function() {
+  test('Return an integer between min and max', function() {
+    assert(randomNumberGenerator(1, 10) <= 10);
+    assert(randomNumberGenerator(1, 10) >= 1);
+  });
 });
 
 suite('fileLottery.hasNext', function() {
   test('Return true if collection hasnt been exhausted', function(){
-    var stub = sinon.stub(FileLottery, "getContentsOfDirectory");
+    var stub = sinon.stub(FileLottery, 'getContentsOfDirectory');
     stub.withArgs(FILE_PATH).returns(['1.txt', '2.txt', '4.txt']);
     var lottery = new FileLottery(FILE_PATH); 
 
@@ -71,7 +74,7 @@ suite('fileLottery.hasNext', function() {
   });
 
   test('Return false if collection has zero elements', function(){
-    var stub = sinon.stub(FileLottery, "getContentsOfDirectory");
+    var stub = sinon.stub(FileLottery, 'getContentsOfDirectory');
     stub.withArgs(FILE_PATH).returns([]);
     var lottery = new FileLottery(FILE_PATH); 
 
@@ -89,6 +92,6 @@ suite('fileLottery.hasNext', function() {
     // var randomElement3 = lottery.next();
 
     // expect(lottery.hasNext()).to.be.false;
-  });
+  // });
 });
 
