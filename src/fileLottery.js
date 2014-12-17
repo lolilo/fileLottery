@@ -2,7 +2,7 @@ var fs = require('fs');
 
 var FileLottery = function(path) {
 	this.fileNames = FileLottery.getContentsOfDirectory(path);
-	// this.fileNames = this.fileNames.
+	this.fileNames = FileLottery.shuffleArray(this.fileNames);
 };	
 
 FileLottery.prototype = {
