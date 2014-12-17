@@ -6,7 +6,6 @@ var expect = chai.expect;
 var sinon = require('sinon');
 
 var FileLottery = require('../src/fileLottery.js').FileLottery;
-
 var FILE_PATH = (__dirname + "/../src");
 
 suite('fileLottery', function() {
@@ -44,8 +43,8 @@ suite('fileLottery', function() {
 
 suite('getContentsOfDirectory', function() {
   test('Return the content of the directory as an array of strings', function(){
-    var lottery = new FileLottery('var/files');
-    expect(FileLottery.getContentsOfDirectory('var/files')).to.deep.equal(['1.txt', '2.txt', '4.txt']);
+    // var lottery = new FileLottery(FILE_PATH);
+    expect(FileLottery.getContentsOfDirectory(FILE_PATH)).to.deep.equal(['fileLottery.js']);
   }); 
 });
 
