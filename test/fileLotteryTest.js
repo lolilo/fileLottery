@@ -58,8 +58,15 @@ suite('getContentsOfDirectory', function() {
 
 suite('getRandomNumber', function() {
   test('Return an integer between min and max', function() {
-    assert(randomNumberGenerator(1, 10) <= 10);
-    assert(randomNumberGenerator(1, 10) >= 1);
+    assert(FileLottery.getRandomNumber(1, 10) <= 10);
+    assert(FileLottery.getRandomNumber(1, 10) >= 1);
+  });
+});
+
+suite('shuffleArray', function() {
+  test('Return a shuffledArray', function() {
+    assert(FileLottery.shuffleArray([1, 2, 3, 4]).length == 4);
+    assert(FileLottery.shuffleArray([]).length == 0);
   });
 });
 
@@ -92,6 +99,6 @@ suite('fileLottery.hasNext', function() {
     // var randomElement3 = lottery.next();
 
     // expect(lottery.hasNext()).to.be.false;
-  // });
+  });
 });
 

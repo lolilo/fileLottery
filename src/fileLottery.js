@@ -47,7 +47,17 @@ FileLottery.isElementInList = function(element, list) {
 }
 
 FileLottery.getRandomNumber = function(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+	return Math.floor(Math.random() * (max - min)) + min;
 }
+
+FileLottery.shuffleArray = function(array) {
+		for (var i = array.length - 1; i > 0; i--) {
+			var randomNumber = FileLottery.getRandomNumber(0, i);
+		    var temp = array[i];
+		    array[i] = array[randomNumber];
+		    array[randomNumber] = temp;
+		}
+		return array;
+	},
 
 module.exports.FileLottery = FileLottery;
