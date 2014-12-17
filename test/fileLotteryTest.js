@@ -7,15 +7,22 @@ var sinon = require('sinon');
 
 var FileLottery = require('../src/fileLottery.js').FileLottery;
 var TEST_DIRECTORY_PATH = (__dirname + "/testFileDirectory");
+var TEST_DIRECTORY_FILES = [
+    "1.txt",
+    "2.txt",
+    "3.txt",
+    "4.txt",
+    "5.txt"
+   ];
 
-suite('FileLottery', function() {
+suite('FileLottery.prototype.FileLottery', function() {
 
   // test('Return empty string for empty directory', function() {
   //   var stub = sinon.stub(FileLottery, "getContentsOfDirectory");
   //   stub.withArgs(TEST_DIRECTORY_PATH).returns([]);
   //   var lottery = new FileLottery(TEST_DIRECTORY_PATH); 
     
-  //   expect(lottery.fileLottery(TEST_DIRECTORY_PATH)).to.equal('');
+  //   expect(lottery.fileLottery().to.equal(''));
   //   stub.restore();
   // });
     
@@ -52,14 +59,7 @@ suite('FileLottery.isElementInList', function() {
 
 suite('FileLottery.getContentsOfDirectory', function() {
   test('Return the content of the directory as an array of strings', function(){
-    var expectedArray = [
-        "1.txt",
-        "2.txt",
-        "3.txt",
-        "4.txt",
-        "5.txt"
-       ];
-    expect(FileLottery.getContentsOfDirectory(TEST_DIRECTORY_PATH)).to.deep.equal(expectedArray);
+    expect(FileLottery.getContentsOfDirectory(TEST_DIRECTORY_PATH)).to.deep.equal(TEST_DIRECTORY_FILES);
   }); 
 });
 
@@ -77,7 +77,7 @@ suite('FileLottery.shuffleArray', function() {
   });
 });
 
-suite('FileLottery.hasNext', function() {
+suite('FileLottery.prototype.hasNext', function() {
   test('Return true if collection hasnt been exhausted', function(){
     var stub = sinon.stub(FileLottery, 'getContentsOfDirectory');
     stub.withArgs(TEST_DIRECTORY_PATH).returns(['1.txt', '2.txt', '4.txt']);
@@ -109,3 +109,20 @@ suite('FileLottery.hasNext', function() {
   });
 });
 
+
+suite('FileLottery.prototype.next', function() {
+  test('Return next element for a fileList that hasNext', function() {
+    var stubGetContentsOfDirectory = sinon.stub(FileLottery, 'getContentsOfDirectory');
+    var stubShuffleArray = sinon.stub(FileLottery, 'shuffleArray');
+    stubGetContentsOfDirectory.withArgs(TEST_DIRECTORY_PATH).returns(TEST_DIRECTORY_FILES);
+    stubShuffleArray.withArgs(TEST_DIRECTORY_FILES).returns(TEST_DIRECTORY_FILES);
+
+    var lottery = new FileLottery(TEST_DIRECTORY_PATH); 
+
+    expect(lottery.next()).to.equal('1.txt');
+    expect(lottery.next()).to.equal('2.txt');
+    expect(lottery.next()).to.equal('3.txt');
+    stubGetContentsOfDirectory.restore();
+    stubShuffleArray.restore();
+  });
+});

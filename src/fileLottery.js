@@ -3,12 +3,15 @@ var fs = require('fs');
 var FileLottery = function(path) {
 	this.fileNames = FileLottery.getContentsOfDirectory(path);
 	this.fileNames = FileLottery.shuffleArray(this.fileNames);
+	this.fileListIndex = -1;
 };	
 
 FileLottery.prototype = {
 	fileLottery: function() {
     	if (this.fileNames.length == 0) return ""; 
-    	// return this.fileNames[this.getRandomIndex(this.fileNames)];
+    	if (this.hasNext) {
+    		return this.next;
+    	}
 	},
 
 	hasNext: function() {
@@ -19,7 +22,8 @@ FileLottery.prototype = {
 	},
 
 	next: function() {
-		
+		this.fileListIndex++;
+		return this.fileNames[this.fileListIndex];
 	}
 };
 
