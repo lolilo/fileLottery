@@ -6,7 +6,7 @@ var expect = chai.expect;
 var sinon = require('sinon');
 
 var FileLottery = require('../src/fileLottery.js').FileLottery;
-var TEST_DIRECTORY_PATH = (__dirname + "/testFileDirectory");
+var TEST_DIRECTORY_PATH = __dirname + "/testFileDirectory";
 var TEST_DIRECTORY_FILES = [
     "1.txt",
     "2.txt",
@@ -14,6 +14,26 @@ var TEST_DIRECTORY_FILES = [
     "4.txt",
     "5.txt"
    ];
+
+suite('FileLottery.prototype.init', function() {
+  test('Return list of file names for a path to a non-empty directory.', function() {
+    var stubGetContentsOfDirectory = sinon.stub(FileLottery, 'getContentsOfDirectory');
+    var stubShuffleArray = sinon.stub(FileLottery, 'shuffleArray');
+    stubGetContentsOfDirectory.withArgs(TEST_DIRECTORY_PATH).returns(TEST_DIRECTORY_FILES);
+    stubShuffleArray.withArgs(TEST_DIRECTORY_FILES).returns(TEST_DIRECTORY_FILES);
+
+    var lottery = new FileLottery(TEST_DIRECTORY_PATH); 
+    expect(lottery.fileNames).to.equal(TEST_DIRECTORY_FILES);
+    stubGetContentsOfDirectory.restore();
+    stubShuffleArray.restore();
+  });
+
+  test('Return list with a single file name for a path to that file.', function() {
+    var path = __dirname + '/../src/fileLottery.js';
+    var lottery = new FileLottery(path);
+    expect(lottery.fileNames).to.equal['fileLottery.js'];
+  });
+});
 
 suite('FileLottery.prototype.FileLottery', function() {
 
@@ -51,12 +71,12 @@ suite('FileLottery.prototype.FileLottery', function() {
     stubShuffleArray.restore();
   });
 
-  test('For realsies.', function() {
-    var lottery = new FileLottery(TEST_DIRECTORY_PATH); 
-    for (var i = 0; i < 100; i++){
-      console.log(lottery.fileLottery());
-    }  
-  }); 
+  // test('For realsies.', function() {
+  //   var lottery = new FileLottery(TEST_DIRECTORY_PATH); 
+  //   for (var i = 0; i < 100; i++){
+  //     console.log(lottery.fileLottery());
+  //   }  
+  // }); 
 });
 
 suite('FileLottery.isElementInList', function() {

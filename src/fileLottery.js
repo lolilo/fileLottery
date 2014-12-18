@@ -1,4 +1,5 @@
 var fs = require('fs');
+var pathModule = require('path');
 
 var FileLottery = function(path) {
 	this.fileNames = this.init(path);
@@ -13,7 +14,8 @@ FileLottery.prototype = {
 		if (fs.lstatSync(path).isDirectory()) {
 			fileNames = FileLottery.getContentsOfDirectory(path);
 		} else if (fs.lstatSync(path).isFile()) {
-			fileNames = [path];
+			fileName = pathModule.basename(path);
+			fileNames = [fileName];
 		} else {
 			console.log("Path does not lead to a file or directory.");
 		}
